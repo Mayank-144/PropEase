@@ -1,0 +1,19 @@
+{
+  "name": "propease-v2",
+  "version": "1.0.0",
+  "description": "PropEase Real Estate Platform - Full MERN Stack",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n \"server,client\" -c \"cyan,magenta\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "start:server": "cd server && npm start",
+    "build:client": "cd client && npm run build",
+    "data:import": "cd server && npm run data:import",
+    "data:destroy": "cd server && npm run data:destroy"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
