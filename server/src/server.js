@@ -6,6 +6,7 @@ import { logger } from './utils/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import dns from 'dns';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -72,17 +73,24 @@ app.get('/api', (req, res) => {
 });
 
 // Serve Frontend in Production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
   const clientPath = path.join(__dirname, '../../client/dist');
-  app.use(express.static(clientPath));
-
-  app.get('*', (req, res) => {
-    // Check if path starts with /api - if so, don't serve index.html
-    if (req.path.startsWith('/api')) {
-      return res.status(404).json({ success: false, message: 'API Route Not Found' });
-    }
-    res.sendFile(path.resolve(clientPath, 'index.html'));
-  });
+  
+  // Debug check
+  if (!fs.existsSync(clientPath)) {
+    console.error(`🔴 PRODUCTION ERROR: Frontend build directory not found at ${clientPath}`);
+    app.get('/', (req, res) => {
+      res.status(500).send("Frontend build missing. Please make sure 'npm run build' ran successfully during deployment.");
+    });
+  } else {
+    app.use(express.static(clientPath));
+    app.get('*', (req, res) => {
+      if (req.path.startsWith('/api')) {
+        return res.status(404).json({ success: false, message: 'API Route Not Found' });
+      }
+      res.sendFile(path.resolve(clientPath, 'index.html'));
+    });
+  }
 }
 
 /**
