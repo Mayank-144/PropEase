@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Footer from "../Components/Layout/Footer.jsx";
 import { amenityIcons } from "../data/mockdata.js";
+import API_BASE_URL from "../config.js";
 
 function PropertyDetail({ property, onBack, goToSlide }) {
   const [contactShown, setContactShown] = useState(false);
@@ -30,7 +31,7 @@ function PropertyDetail({ property, onBack, goToSlide }) {
     try {
       // 1. Ask backend to create a new Order
       // Use standard fetch to the new /api/payment/create-order endpoint
-      const orderResponse = await fetch("http://localhost:5000/api/payment/create-order", {
+      const orderResponse = await fetch(`${API_BASE_URL}/api/payment/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: property.price }),
@@ -56,7 +57,7 @@ function PropertyDetail({ property, onBack, goToSlide }) {
           // 3. Verify Payment with your Backend AND Create Booking
           const loggedInUser = JSON.parse(localStorage.getItem('propease_user')) || null;
 
-          const verifyRes = await fetch("http://localhost:5000/api/payment/verify", {
+          const verifyRes = await fetch(`${API_BASE_URL}/api/payment/verify`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
