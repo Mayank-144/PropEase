@@ -5,6 +5,11 @@ import { connectDB } from './config/database.js';
 import { logger } from './utils/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import dns from 'dns';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dns.setDefaultResultOrder('ipv4first');
 
@@ -58,14 +63,27 @@ app.get('/api/health', (req, res) => {
  * Root Endpoint
  */
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'PropEase API Server',
-    version: '1.0.0',
-    docs: '/api/docs'
+    version: '1.0.0'
   });
 });
+
+// Serve Frontend in Production
+if (process.env.NODE_ENV === 'production') {
+  const clientPath = path.join(__dirname, '../../client/dist');
+  app.use(express.static(clientPath));
+
+  app.get('*', (req, res) => {
+    // Check if path starts with /api - if so, don't serve index.html
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({ success: false, message: 'API Route Not Found' });
+    }
+    res.sendFile(path.resolve(clientPath, 'index.html'));
+  });
+}
 
 /**
  * Error Handling Middlewares
