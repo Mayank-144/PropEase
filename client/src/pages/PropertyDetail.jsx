@@ -129,10 +129,10 @@ function PropertyDetail({ property, onBack, goToSlide }) {
       <div className="container" style={{ padding: "40px 20px" }}>
         <button onClick={onBack} className="btn-outline" style={{ marginBottom: "32px" }}>← Back to Listings</button>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: "40px", alignItems: "start" }}>
+        <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: "40px", alignItems: "start" }}>
           <div>
             <div style={{ borderRadius: "16px", overflow: "hidden", marginBottom: "28px", boxShadow: "var(--shadow)" }}>
-              <img src={property.image} alt={property.title} style={{ width: "100%", height: "420px", objectFit: "cover" }} />
+              <img src={property.image} alt={property.title} style={{ width: "100%", height: "auto", minHeight: "300px", maxHeight: "500px", objectFit: "cover" }} />
             </div>
 
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", marginBottom: "24px" }}>
@@ -147,7 +147,7 @@ function PropertyDetail({ property, onBack, goToSlide }) {
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: "24px", padding: "20px 24px", background: "var(--cultured)", borderRadius: "12px", marginBottom: "28px" }}>
+            <div style={{ display: "flex", gap: "24px", padding: "20px 24px", background: "var(--cultured)", borderRadius: "12px", marginBottom: "28px", flexWrap: "wrap", justifyContent: "space-between" }}>
               {[["🛏", property.bedrooms + " Bedrooms"], ["🚿", property.bathrooms + " Bathrooms"], ["📐", property.squareFt + " sq ft"]].map(([ic, v]) => (
                 <div key={v} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <span style={{ fontSize: "1.3rem" }}>{ic}</span>

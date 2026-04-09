@@ -61,13 +61,23 @@ const globalStyles = `
   .fade-up { animation: fadeUp 0.6s ease forwards; }
   .fade-in { animation: fadeIn 0.4s ease forwards; }
 
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-  .section-subtitle { color: var(--orange); font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-  .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--raisin); margin-bottom: 16px; line-height: 1.3; }
-  .btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; background: var(--orange); color: var(--white); border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: var(--transition); }
-  .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); box-shadow: 0 8px 24px hsla(9,100%,62%,0.35); }
-  .btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 11px 26px; border: 2px solid var(--orange); color: var(--orange); border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: var(--transition); background: transparent; }
-  .btn-outline:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .section-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+  
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .container { padding: 0 16px; }
+    .section-title { font-size: 1.8rem; }
+    .btn-primary, .btn-outline { padding: 12px 20px; width: 100%; justify-content: center; }
+    .responsive-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+    .mobile-hide { display: none !important; }
+    .mobile-full { width: 100% !important; }
+  }
+
+  /* Smoothness & Transitions */
+  * { transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .smooth-scroll { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+
 `;
 
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";

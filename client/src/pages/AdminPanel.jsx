@@ -37,9 +37,9 @@ function AdminPanel() {
   const soldProps = properties.length - activeProps;
 
   return (
-    <div style={{ paddingTop: "68px", minHeight: "100vh", background: "var(--cultured)", display: "flex", overflow: "hidden" }}>
+    <div className="responsive-grid" style={{ paddingTop: "68px", minHeight: "100vh", background: "var(--cultured)", display: "flex", overflow: "hidden" }}>
       {/* Sidebar */}
-      <aside style={{ width: "260px", background: "var(--raisin)", color: "white", padding: "30px 20px", display: "flex", flexDirection: "column", height: "calc(100vh - 68px)", position: "sticky", top: "68px" }}>
+      <aside className="mobile-hide" style={{ width: "260px", background: "var(--raisin)", color: "white", padding: "30px 20px", display: "flex", flexDirection: "column", height: "calc(100vh - 68px)", position: "sticky", top: "68px" }}>
         <h2 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: "40px", paddingLeft: "12px", color: "white" }}>Admin Dashboard</h2>
         <nav style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {tabs.map(t => (
@@ -67,7 +67,7 @@ function AdminPanel() {
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: "40px 50px", overflowY: "auto", height: "calc(100vh - 68px)" }}>
+      <main className="mobile-full" style={{ flex: 1, padding: "20px", overflowY: "auto", height: "calc(100vh - 68px)" }}>
         <div style={{ marginBottom: "32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
             <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--raisin)", marginBottom: "4px" }}>
