@@ -16,7 +16,7 @@ const users = [
 const properties = [
   {
     title: "New Apartment Nice View",
-    price: 50000,
+    price: 45000,
     location: "Vijay Nagar, Indore",
     address: { city: "Indore" },
     bedrooms: 3,
@@ -30,7 +30,7 @@ const properties = [
   },
   {
     title: "Modern Apartments",
-    price: 30000,
+    price: 32000,
     location: "Tilak Nagar, Indore",
     address: { city: "Indore" },
     bedrooms: 2,
@@ -44,7 +44,7 @@ const properties = [
   },
   {
     title: "Comfortable Apartment",
-    price: 50000,
+    price: 58000,
     location: "Bhawarkuan, Indore",
     address: { city: "Indore" },
     bedrooms: 3,
@@ -58,7 +58,7 @@ const properties = [
   },
   {
     title: "Luxury Villa Rego Park",
-    price: 120000,
+    price: 89000,
     location: "Rajendra Nagar, Indore",
     address: { city: "Indore" },
     bedrooms: 5,

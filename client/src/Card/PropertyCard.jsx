@@ -4,7 +4,7 @@ function PropertyCard({ property, onClick }) {
   const unitsTotal = property.unitsTotal || 1;
   const unitsAvailable = isSoldOut ? 0 : (property.unitsAvailable !== undefined ? property.unitsAvailable : 1);
   const unitsSold = unitsTotal - unitsAvailable;
-  
+
   const isLimited = !isSoldOut && unitsTotal > 1 && unitsAvailable <= 3;
   const isAvailable = !isSoldOut && !isLimited;
 
@@ -26,15 +26,17 @@ function PropertyCard({ property, onClick }) {
 
   const progressPercent = Math.max(0, Math.min(100, (unitsSold / unitsTotal) * 100));
 
+  const mainImage = property.images?.[0]?.url || property.image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80";
+
   return (
     <div onClick={() => onClick(property)} style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: "var(--shadow-sm)", transition: "all 0.3s", cursor: "pointer", opacity: isSoldOut ? 0.65 : 1, filter: isSoldOut ? "grayscale(40%)" : "none", display: "flex", flexDirection: "column", height: "100%" }}
       onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "var(--shadow)"; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "var(--shadow-sm)"; }}>
-      
+
       <div style={{ position: "relative", overflow: "hidden", height: "220px", flexShrink: 0 }}>
-        <img src={property.image} alt={property.title} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }}
+        <img src={mainImage} alt={property.title} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }}
           onMouseEnter={e => e.target.style.transform = "scale(1.05)"} onMouseLeave={e => e.target.style.transform = ""} />
-        
+
         {/* Type Badge */}
         <span style={{ position: "absolute", top: "14px", left: "14px", background: "rgba(0,0,0,0.6)", color: "white", fontSize: "0.72rem", fontWeight: 700, padding: "4px 12px", borderRadius: "20px", letterSpacing: "0.5px", backdropFilter: "blur(4px)" }}>
           {property.type}
@@ -49,7 +51,7 @@ function PropertyCard({ property, onClick }) {
       <div style={{ padding: "20px 22px", display: "flex", flexDirection: "column", flexGrow: 1 }}>
         <h3 style={{ fontWeight: 800, fontSize: "1.1rem", marginBottom: "6px", color: "var(--raisin)", lineHeight: 1.3 }}>{property.title}</h3>
         <p style={{ color: "var(--cadet)", fontSize: "0.85rem", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>📍 {property.location}</p>
-        
+
         <p style={{ fontSize: "0.82rem", color: isSoldOut ? "#e63946" : "var(--cadet)", fontWeight: isSoldOut ? 600 : 400, fontStyle: "italic", marginBottom: "16px", lineHeight: 1.5 }}>
           {descText}
         </p>

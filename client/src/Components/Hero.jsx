@@ -18,7 +18,7 @@ function Hero({ goToSlide }) {
           </p>
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <button onClick={() => goToSlide?.(3)} className="btn-primary">Explore Properties →</button>
-            <button onClick={() => goToSlide?.(4)} className="btn-outline" style={{ borderColor: "rgba(255,255,255,0.3)", color: "white" }}>Make Enquiry</button>
+            <button onClick={() => goToSlide?.(4)} className="btn-outline" style={{ borderColor: "rgba(255,255,255,0.4)", color: "white", padding: "12px 28px", fontSize: "0.95rem" }}>Make Enquiry</button>
           </div>
           <div style={{ display: "flex", gap: "40px", marginTop: "50px" }}>
             {[["500+", "Properties"], ["98%", "Happy Clients"], ["10+", "Years Experience"]].map(([n, l]) => (

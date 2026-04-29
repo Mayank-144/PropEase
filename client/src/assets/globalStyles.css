@@ -44,4 +44,38 @@
   .btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; background: var(--orange); color: var(--white); border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: var(--transition); }
   .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); box-shadow: 0 8px 24px hsla(9,100%,62%,0.35); }
   .btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 11px 26px; border: 2px solid var(--orange); color: var(--orange); border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: var(--transition); background: transparent; }
-.btn-outline:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+  .btn-outline:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+
+  /* Responsive Grid utilities */
+  .responsive-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* Form Elements */
+  .form-group { margin-bottom: 15px; }
+  .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: var(--ff); font-size: 0.9rem; }
+  .form-control:focus { outline: none; border-color: var(--orange); }
+  textarea.form-control { resize: vertical; min-height: 80px; }
+
+  /* Mobile responsiveness */
+  @media (max-width: 992px) {
+    .responsive-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.5rem;
+    }
+    .btn-primary, .btn-outline {
+      padding: 10px 20px;
+      font-size: 0.85rem;
+    }
+    .container {
+      padding: 0 16px;
+    }
+  }

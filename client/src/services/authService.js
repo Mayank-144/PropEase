@@ -12,7 +12,7 @@ export const authService = {
   async login(email, password) {
     try {
       const response = await apiClient.post('/api/auth/login', { email, password });
-      
+
       if (response.success) {
         const { user, token, refreshToken } = response.data;
         localStorage.setItem('hv_user', JSON.stringify(user));
@@ -20,7 +20,7 @@ export const authService = {
         localStorage.setItem('hv_refreshToken', refreshToken);
         return user;
       }
-      
+
       throw new Error(response.message || 'Login failed');
     } catch (error) {
       console.error('Login error:', error);
@@ -79,7 +79,7 @@ export const authService = {
   async getCurrentUser() {
     try {
       const response = await apiClient.get('/api/auth/me');
-      
+
       if (response.success) {
         return response.data;
       }
@@ -99,13 +99,13 @@ export const authService = {
   async refreshToken() {
     try {
       const refreshToken = localStorage.getItem('hv_refreshToken');
-      
+
       if (!refreshToken) {
         throw new Error('No refresh token available');
       }
 
       const response = await apiClient.post('/api/auth/refresh-token', { refreshToken });
-      
+
       if (response.success) {
         const { token, refreshToken: newRefreshToken } = response.data;
         localStorage.setItem('hv_token', token);

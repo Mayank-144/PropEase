@@ -3,7 +3,7 @@
 ## 🧪 Quick Test Checklist
 
 ### 1. **Authentication**
-- [ ] Login with admin credentials (kushagra / kushagra123)
+- [ ] Login with admin credentials (Mayank / 123)
   - Expected: Redirected to home page, "Admin User" in header
 - [ ] Logout button works
   - Expected: Redirected to login page

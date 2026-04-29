@@ -20,13 +20,13 @@ function Header({ user, setPage, setSelectedProperty, setSelectedService, active
   const navLinks = user?.role === "admin"
     ? [{ label: "Home", page: "home" }, { label: "Admin Panel", page: "admin" }, { label: "My History", page: "history" }]
     : [
-        { label: "Home", slide: 0 },
-        { label: "About", slide: 1 },
-        { label: "Services", slide: 2 },
-        { label: "Properties", slide: 3 },
-        { label: "Contact", slide: 4 },
-        { label: "My History", page: "history" }
-      ];
+      { label: "Home", slide: 0 },
+      { label: "About", slide: 1 },
+      { label: "Services", slide: 2 },
+      { label: "Properties", slide: 3 },
+      { label: "Contact", slide: 4 },
+      { label: "My History", page: "history" }
+    ];
 
   const handleNavClick = (link) => {
     setMenuOpen(false);
@@ -148,7 +148,7 @@ function Header({ user, setPage, setSelectedProperty, setSelectedService, active
                   cursor: "pointer",
                   color: isActive ? "var(--orange)" : "var(--raisin)"
                 }}
-                onClick={() => handleNavClick(l)}>
+                  onClick={() => handleNavClick(l)}>
                   {l.label}
                 </div>
               );

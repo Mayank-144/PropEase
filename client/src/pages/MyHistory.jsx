@@ -67,7 +67,7 @@ function MyHistory() {
               <h1 style={{ fontSize: "1.8rem", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px" }}>Residential Lease Agreement</h1>
               <p style={{ marginTop: "8px", fontStyle: "italic", color: "#555" }}>Formally Executed via PropEase Secure Gateway</p>
             </div>
-            
+
             <p style={{ marginBottom: "16px", lineHeight: "1.6" }}>
               This Residential Lease Agreement ("Agreement") is made and entered into on <strong>{leaseModal.date}</strong>, by and between the Landlord ("PropEase Verified Owner") and the Tenant, <strong>{user?.name || "Verified Tenant"}</strong>.
             </p>
@@ -84,20 +84,20 @@ function MyHistory() {
 
             <h3 style={{ fontSize: "1.2rem", fontWeight: "bold", marginTop: "24px", marginBottom: "8px" }}>3. Rent & Payment Verification</h3>
             <p style={{ marginBottom: "16px", lineHeight: "1.6" }}>
-              The Tenant agrees to pay rent in the amount of <strong>₹{Number(leaseModal.price).toLocaleString()}</strong> per month. The initial payment and security deposit have been successfully processed, verified, and secured under Transaction ID: <strong style={{color:"green"}}>{leaseModal.transactionId}</strong>.
+              The Tenant agrees to pay rent in the amount of <strong>₹{Number(leaseModal.price).toLocaleString()}</strong> per month. The initial payment and security deposit have been successfully processed, verified, and secured under Transaction ID: <strong style={{ color: "green" }}>{leaseModal.transactionId}</strong>.
             </p>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "60px", paddingTop: "20px", borderTop: "1px solid #ddd" }}>
               <div style={{ textAlign: "center", width: "45%" }}>
                 <div style={{ borderBottom: "1px solid #333", height: "40px", marginBottom: "8px", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-                   <span style={{fontFamily: "cursive", fontSize: "1.4rem", color: "#225588"}}>{user?.name}</span>
+                  <span style={{ fontFamily: "cursive", fontSize: "1.4rem", color: "#225588" }}>{user?.name}</span>
                 </div>
                 <p style={{ fontSize: "0.9rem", fontWeight: "bold" }}>Tenant Signature</p>
                 <p style={{ fontSize: "0.8rem", color: "#777" }}>{leaseModal.date}</p>
               </div>
               <div style={{ textAlign: "center", width: "45%" }}>
                 <div style={{ borderBottom: "1px solid #333", height: "40px", marginBottom: "8px", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-                   <span style={{fontFamily: "monospace", fontSize: "1.2rem", color: "#882222", fontWeight: "bold"}}>PROPEASE_E-AUTH</span>
+                  <span style={{ fontFamily: "monospace", fontSize: "1.2rem", color: "#882222", fontWeight: "bold" }}>PROPEASE_E-AUTH</span>
                 </div>
                 <p style={{ fontSize: "0.9rem", fontWeight: "bold" }}>Authorized Agent</p>
                 <p style={{ fontSize: "0.8rem", color: "#777" }}>PropEase Platform</p>

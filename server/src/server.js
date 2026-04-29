@@ -1,7 +1,9 @@
 import 'dotenv/config.js';
 import express from 'express';
+import http from 'http';
 import cors from 'cors';
 import { connectDB } from './config/database.js';
+import { initSocket } from './config/socket.js';
 import { logger } from './utils/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import dns from 'dns';
@@ -20,8 +22,10 @@ import propertyRoutes from './routes/properties.js';
 import paymentRoutes from './routes/payment.js';
 import serviceRoutes from './routes/services.js';
 import bookingRoutes from './routes/bookings.js';
+import messageRoutes from './routes/messages.js';
 
 const app = express();
+const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 /**
@@ -30,7 +34,7 @@ const PORT = process.env.PORT || 5000;
 
 // CORS configuration
 app.use(cors({
-  origin: [process.env.CLIENT_URL, 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
+  origin: [process.env.CLIENT_URL, 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://127.0.0.1:5173'],
   credentials: true
 }));
 
@@ -47,6 +51,7 @@ app.use('/api/properties', propertyRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/messages', messageRoutes);
 
 /**
  * Health Check Endpoint
@@ -75,7 +80,7 @@ app.get('/api', (req, res) => {
 // Serve Frontend in Production
 if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
   const clientPath = path.join(__dirname, '../../client/dist');
-  
+
   // Debug check
   if (!fs.existsSync(clientPath)) {
     console.error(`🔴 PRODUCTION ERROR: Frontend build directory not found at ${clientPath}`);
@@ -113,8 +118,12 @@ async function startServer() {
     await connectDB();
     logger.success('Database connection established');
 
+    // Initialize Socket.io
+    initSocket(httpServer);
+    logger.success('Socket.io initialized');
+
     // Start server
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       logger.success(`Server running on http://localhost:${PORT}`);
       logger.info('🚀 PropEase API Server is ready');
       logger.info(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);

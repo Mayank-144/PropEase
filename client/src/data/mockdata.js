@@ -2,7 +2,7 @@ export const initialProperties = [
   {
     id: 1,
     title: "New Apartment Nice View",
-    price: 50000,
+    price: 45000,
     location: "Vijay Nagar, Indore",
     bedrooms: 3,
     bathrooms: 2,
@@ -18,7 +18,7 @@ export const initialProperties = [
   {
     id: 2,
     title: "Modern Apartments",
-    price: 30000,
+    price: 32000,
     location: "Tilak Nagar, Indore",
     bedrooms: 2,
     bathrooms: 1,
@@ -36,7 +36,7 @@ export const initialProperties = [
   {
     id: 3,
     title: "Comfortable Apartment",
-    price: 50000,
+    price: 58000,
     location: "Bhawarkuan, Indore",
     bedrooms: 3,
     bathrooms: 2,
@@ -54,7 +54,7 @@ export const initialProperties = [
   {
     id: 4,
     title: "Luxury Villa Rego Park",
-    price: 120000,
+    price: 89000,
     location: "Rajendra Nagar, Indore",
     bedrooms: 5,
     bathrooms: 4,
@@ -70,7 +70,7 @@ export const initialProperties = [
   {
     id: 5,
     title: "Ultra-Modern Glass Mansion",
-    price: 350000,
+    price: 95000,
     location: "Palasia, Indore",
     bedrooms: 6,
     bathrooms: 5,
@@ -85,7 +85,7 @@ export const initialProperties = [
   {
     id: 6,
     title: "Tranquil Lakefront Estate",
-    price: 18500,
+    price: 72000,
     location: "Pipliyapala, Indore",
     bedrooms: 4,
     bathrooms: 4,

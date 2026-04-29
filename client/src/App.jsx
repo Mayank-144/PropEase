@@ -22,6 +22,10 @@ import SlideContainer from "@/Components/SlideContainer.jsx";
 // Imports from cards
 import PropertiesSection from "@/Card/PropertiesSelection.jsx";
 
+// Real-time components
+import NotificationToast from "./Components/NotificationToast.jsx";
+import ChatWindow from "./Components/ChatWindow.jsx";
+
 // ——— STYLES ————————————————————————————————————————————————————
 
 const globalStyles = `
@@ -64,8 +68,46 @@ const globalStyles = `
   .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
   .section-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
   
+  .btn-primary { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    padding: 12px 28px; 
+    background: var(--orange); 
+    color: var(--white); 
+    border-radius: 8px; 
+    font-weight: 600; 
+    font-size: 0.95rem; 
+    transition: var(--transition); 
+    border: none;
+  }
+  .btn-primary:hover { 
+    background: var(--orange-dark); 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 24px hsla(9,100%,62%,0.35); 
+  }
+  .btn-outline { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    padding: 11px 26px; 
+    border: 2px solid var(--orange); 
+    color: var(--orange); 
+    border-radius: 8px; 
+    font-weight: 600; 
+    font-size: 0.95rem; 
+    transition: var(--transition); 
+    background: transparent; 
+  }
+  .btn-outline:hover { 
+    background: var(--orange); 
+    color: var(--white); 
+    transform: translateY(-2px); 
+  }
+  
   /* Mobile Optimizations */
   @media (max-width: 768px) {
+    html, body { overflow-y: auto !important; height: auto !important; }
     .container { padding: 0 16px; }
     .section-title { font-size: 1.8rem; }
     .btn-primary, .btn-outline { padding: 12px 20px; width: 100%; justify-content: center; }
@@ -75,7 +117,6 @@ const globalStyles = `
   }
 
   /* Smoothness & Transitions */
-  * { transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
   .smooth-scroll { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 
 `;
@@ -94,14 +135,14 @@ function App() {
     navigate(u.role === "admin" ? "/admin" : "/");
   };
 
-  const handlePropertyClick = (p) => { 
-    setSelectedProperty(p); 
-    navigate("/property/" + p.id); 
+  const handlePropertyClick = (p) => {
+    setSelectedProperty(p);
+    navigate("/property/" + p.id);
   };
 
-  const handleServiceClick = (s) => { 
-    setSelectedService(s); 
-    navigate("/service/" + s.id); 
+  const handleServiceClick = (s) => {
+    setSelectedService(s);
+    navigate("/service/" + s.id);
   };
 
   const handleSlideChange = useCallback((index) => {
@@ -135,6 +176,8 @@ function App() {
   return (
     <>
       <style>{globalStyles}</style>
+      <NotificationToast />
+      <ChatWindow />
       <Header
         user={user}
         setPage={mockSetPage}
@@ -143,7 +186,7 @@ function App() {
         activeSlide={activeSlide}
         goToSlide={goToSlide}
       />
-      
+
       <Routes>
         <Route path="/" element={
           <SlideContainer activeSlide={activeSlide} onSlideChange={handleSlideChange}>

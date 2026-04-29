@@ -6,6 +6,51 @@ import API_BASE_URL from "../config.js";
 function PropertyDetail({ property, onBack, goToSlide }) {
   const [contactShown, setContactShown] = useState(false);
   const [loadingPayment, setLoadingPayment] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [sendingMsg, setSendingMsg] = useState(false);
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    setSendingMsg(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/messages/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          propertyId: property._id || property.id,
+          ownerEmail: property.owner?.email || "owner@propease.com", // Fallback for mock data
+          tenantName: contactForm.name,
+          tenantEmail: contactForm.email,
+          tenantPhone: contactForm.phone,
+          message: contactForm.message
+        }),
+      });
+      const data = await res.json();
+      if (data.success || res.ok) {
+        // Save to Local Storage so it appears in the Admin Panel
+        const localMessages = JSON.parse(localStorage.getItem('hv_messages')) || [];
+        localMessages.push({
+          id: Date.now(),
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone,
+          message: contactForm.message,
+          propertyId: property._id || property.id,
+          date: new Date().toLocaleDateString()
+        });
+        localStorage.setItem('hv_messages', JSON.stringify(localMessages));
+
+        alert("Message sent to the landlord successfully!");
+        setContactForm({ name: "", email: "", phone: "", message: "" });
+        setContactShown(false);
+      } else {
+        alert("Failed to send message: " + (data.message || "Unknown error"));
+      }
+    } catch (err) {
+      alert("Error sending message.");
+    }
+    setSendingMsg(false);
+  };
 
   // Load Razorpay Script Dynamically
   const loadRazorpayScript = () => {
@@ -30,6 +75,12 @@ function PropertyDetail({ property, onBack, goToSlide }) {
 
     try {
       // 1. Ask backend to create a new Order
+      if (!property?.price || isNaN(property.price)) {
+        alert("Invalid property price. Please contact support.");
+        setLoadingPayment(false);
+        return;
+      }
+
       // Use standard fetch to the new /api/payment/create-order endpoint
       const orderResponse = await fetch(`${API_BASE_URL}/api/payment/create-order`, {
         method: "POST",
@@ -51,7 +102,6 @@ function PropertyDetail({ property, onBack, goToSlide }) {
         currency: orderData.order.currency,
         name: "PropEase",
         description: `Rent payment for ${property.title}`,
-        image: "https://your-logo-url.com/logo.png",
         order_id: orderData.order.id,
         handler: async function (response) {
           // 3. Verify Payment with your Backend AND Create Booking
@@ -129,10 +179,10 @@ function PropertyDetail({ property, onBack, goToSlide }) {
       <div className="container" style={{ padding: "40px 20px" }}>
         <button onClick={onBack} className="btn-outline" style={{ marginBottom: "32px" }}>← Back to Listings</button>
 
-        <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: "40px", alignItems: "start" }}>
+        <div className="responsive-grid">
           <div>
             <div style={{ borderRadius: "16px", overflow: "hidden", marginBottom: "28px", boxShadow: "var(--shadow)" }}>
-              <img src={property.image} alt={property.title} style={{ width: "100%", height: "auto", minHeight: "300px", maxHeight: "500px", objectFit: "cover" }} />
+              <img src={property.images?.[0]?.url || property.image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80"} alt={property.title} style={{ width: "100%", height: "auto", minHeight: "300px", maxHeight: "500px", objectFit: "cover" }} />
             </div>
 
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", marginBottom: "24px" }}>
@@ -184,15 +234,27 @@ function PropertyDetail({ property, onBack, goToSlide }) {
 
               {contactShown ? (
                 <div style={{ animation: "fadeIn 0.3s ease" }}>
-                  {[{ icon: "📞", val: property.owner?.phone || "N/A" }, { icon: "✉️", val: property.owner?.email || "N/A" }].map(c => (
-                    <div key={c.val} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px", background: "var(--cultured)", borderRadius: "8px", marginBottom: "10px", fontSize: "0.85rem" }}>
-                      <span>{c.icon}</span> <span style={{ color: "var(--raisin)", fontWeight: 500 }}>{c.val}</span>
+                  <form onSubmit={handleSendMessage} style={{ marginTop: "16px" }}>
+                    <div className="form-group">
+                      <input type="text" className="form-control" placeholder="Your Name" required value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})} />
                     </div>
-                  ))}
-                  <button onClick={() => setContactShown(false)} className="btn-outline" style={{ width: "100%", justifyContent: "center", marginTop: "8px" }}>Hide Info</button>
+                    <div className="form-group">
+                      <input type="email" className="form-control" placeholder="Your Email" required value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <input type="tel" className="form-control" placeholder="Your Phone (optional)" value={contactForm.phone} onChange={e => setContactForm({...contactForm, phone: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <textarea className="form-control" placeholder="Message to landlord" required value={contactForm.message} onChange={e => setContactForm({...contactForm, message: e.target.value})}></textarea>
+                    </div>
+                    <button type="submit" disabled={sendingMsg} className="btn-primary" style={{ width: "100%", justifyContent: "center", marginBottom: "8px" }}>
+                      {sendingMsg ? "Sending..." : "✉️ Send Message"}
+                    </button>
+                    <button type="button" onClick={() => setContactShown(false)} className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Cancel</button>
+                  </form>
                 </div>
               ) : (
-                <button onClick={() => setContactShown(true)} className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>📞 Contact Owner</button>
+                <button onClick={() => setContactShown(true)} className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>✉️ Send Message</button>
               )}
             </div>
 

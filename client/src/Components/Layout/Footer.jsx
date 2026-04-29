@@ -18,41 +18,41 @@ function Footer({ goToSlide }) {
             </div>
           </div>
           {[
-            { 
-              title: "Company", 
+            {
+              title: "Company",
               links: [
-                { label: "About", action: () => goToSlide && goToSlide(1) }, 
-                { label: "All Properties", action: () => goToSlide && goToSlide(3) }, 
-                { label: "Services", action: () => goToSlide && goToSlide(2) }, 
+                { label: "About", action: () => goToSlide && goToSlide(1) },
+                { label: "All Properties", action: () => goToSlide && goToSlide(3) },
+                { label: "Services", action: () => goToSlide && goToSlide(2) },
                 { label: "Contact Us", action: () => goToSlide && goToSlide(4) }
-              ] 
+              ]
             },
-            { 
-              title: "Services", 
+            {
+              title: "Services",
               links: [
-                { label: "Buy a Home", action: () => goToSlide && goToSlide(2) }, 
-                { label: "Rent a Home", action: () => goToSlide && goToSlide(2) }, 
+                { label: "Buy a Home", action: () => goToSlide && goToSlide(2) },
+                { label: "Rent a Home", action: () => goToSlide && goToSlide(2) },
                 { label: "Property Mgmt", action: () => goToSlide && goToSlide(2) }
-              ] 
+              ]
             },
-            { 
-              title: "Reach Us", 
+            {
+              title: "Reach Us",
               links: [
-                { label: "Brooklyn, NYC" }, 
-                { label: "+0123-456789" }, 
+                { label: "Brooklyn, NYC" },
+                { label: "+0123-456789" },
                 { label: "contact@propease.com" }
-              ] 
+              ]
             }
           ].map(col => (
             <div key={col.title}>
               <h4 style={{ color: "white", fontWeight: 700, marginBottom: "16px", fontSize: "0.95rem" }}>{col.title}</h4>
               <ul style={{ listStyle: "none" }}>
                 {col.links.map(l => (
-                  <li 
-                    key={l.label} 
+                  <li
+                    key={l.label}
                     onClick={l.action}
-                    style={{ marginBottom: "8px", fontSize: "0.85rem", cursor: l.action ? "pointer" : "default", transition: "color 0.2s" }} 
-                    onMouseEnter={e => { if (l.action) e.currentTarget.style.color = "var(--orange)"; }} 
+                    style={{ marginBottom: "8px", fontSize: "0.85rem", cursor: l.action ? "pointer" : "default", transition: "color 0.2s" }}
+                    onMouseEnter={e => { if (l.action) e.currentTarget.style.color = "var(--orange)"; }}
                     onMouseLeave={e => { if (l.action) e.currentTarget.style.color = ""; }}
                   >
                     {l.label}

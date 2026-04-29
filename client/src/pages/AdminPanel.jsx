@@ -6,6 +6,7 @@ function AdminPanel() {
   const [tab, setTab] = useState("overview");
   const [properties, setProperties] = useState(getStoredProps);
   const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem("hv_messages")) || []);
+  const [history, setHistory] = useState(() => JSON.parse(localStorage.getItem("hv_history")) || []);
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({});
 
@@ -34,7 +35,7 @@ function AdminPanel() {
   const inputStyle = { width: "100%", padding: "10px 12px", border: "1.5px solid #e5e7ef", borderRadius: "8px", fontSize: "0.88rem", outline: "none" };
 
   const activeProps = properties.filter(p => p.available !== false).length;
-  const soldProps = properties.length - activeProps;
+  const soldProps = history.length;
 
   return (
     <div className="responsive-grid" style={{ paddingTop: "68px", minHeight: "100vh", background: "var(--cultured)", display: "flex", overflow: "hidden" }}>
@@ -161,7 +162,7 @@ function AdminPanel() {
 
         {tab === "sold_properties" && (
           <div style={{ animation: "fadeIn 0.3s ease" }}>
-            {properties.filter(p => p.available === false).length === 0 ? (
+            {history.length === 0 ? (
               <div style={{ background: "white", borderRadius: "20px", padding: "60px", textAlign: "center", boxShadow: "var(--shadow-sm)" }}>
                 <div style={{ fontSize: "3rem", marginBottom: "16px" }}>🏠</div>
                 <h3 style={{ fontWeight: 700, marginBottom: "8px" }}>No Sold or Rented Properties Yet</h3>
@@ -169,20 +170,20 @@ function AdminPanel() {
               </div>
             ) : (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "20px" }}>
-                {properties.filter(p => p.available === false).map(p => (
-                  <div key={p.id} style={{ background: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "var(--shadow-sm)" }}>
+                {history.map((p, idx) => (
+                  <div key={p.transactionId || idx} style={{ background: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "var(--shadow-sm)" }}>
                     <div style={{ position: "relative", height: "160px" }}>
-                      <img src={p.image} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)" }} />
+                      <img src={p.image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80"} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)" }} />
                       <span style={{ position: "absolute", top: "12px", right: "12px", background: "#e63946", color: "white", padding: "6px 14px", borderRadius: "20px", fontSize: "0.78rem", fontWeight: 700 }}>
-                        {p.type === "For Rent" ? "Rented" : "Sold"}
+                        {p.type || "Sold"}
                       </span>
                     </div>
                     <div style={{ padding: "20px" }}>
                       <h3 style={{ fontWeight: 700, fontSize: "1.05rem", marginBottom: "6px" }}>{p.title}</h3>
-                      <p style={{ color: "var(--cadet)", fontSize: "0.85rem", marginBottom: "12px" }}>📍 {p.location}</p>
+                      <p style={{ color: "var(--cadet)", fontSize: "0.85rem", marginBottom: "12px" }}>📅 Date: {p.date}</p>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "14px", borderTop: "1px solid var(--cultured)" }}>
                         <span style={{ fontWeight: 800, fontSize: "1.15rem", color: "var(--raisin)" }}>₹{Number(p.price).toLocaleString()}</span>
-                        <span style={{ fontSize: "0.78rem", color: "var(--cadet)", fontWeight: 600 }}>{p.type}</span>
+                        <span style={{ fontSize: "0.78rem", color: "var(--cadet)", fontWeight: 600 }}>Txn: {p.transactionId?.slice(0, 8) || "N/A"}</span>
                       </div>
                     </div>
                   </div>

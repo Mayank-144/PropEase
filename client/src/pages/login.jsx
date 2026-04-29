@@ -3,13 +3,13 @@ import { usersData } from "@/data/mockdata.js";
 
 function LoginPage({ onLogin }) {
   const [mode, setMode] = useState("login"); // login, signup, forgot, change
-  const [form, setForm] = useState({ 
-    name: "", 
-    username: "", 
-    email: "", 
-    password: "", 
-    oldPassword: "", 
-    newPassword: "" 
+  const [form, setForm] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    oldPassword: "",
+    newPassword: ""
   });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -42,7 +42,7 @@ function LoginPage({ onLogin }) {
         } else {
           throw new Error("Invalid username or password.");
         }
-      } 
+      }
       else if (mode === "signup") {
         if (!form.name || !form.username || !form.email || !form.password) throw new Error("Please fill in all fields.");
         setMessage("Account created successfully! Please login.");
@@ -131,7 +131,7 @@ function LoginPage({ onLogin }) {
                 <input type="text" value={form.name} placeholder="Enter your name" onChange={e => setForm(p => ({ ...p, name: e.target.value }))} style={inputStyles} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
             )}
-            
+
             {(mode === "signup" || mode === "forgot") && (
               <div style={{ marginBottom: "20px" }}>
                 <label style={{ display: "block", color: "hsla(0,0%,100%,0.7)", fontSize: "0.8rem", fontWeight: 600, marginBottom: "8px", letterSpacing: "0.5px" }}>Email</label>
@@ -214,16 +214,16 @@ function LoginPage({ onLogin }) {
 }
 
 // Reusable styles for inputs
-const inputStyles = { 
-  width: "100%", 
-  padding: "13px 16px", 
-  background: "rgba(255,255,255,0.08)", 
-  border: "1px solid rgba(255,255,255,0.15)", 
-  borderRadius: "10px", 
-  color: "white", 
-  fontSize: "0.9rem", 
-  outline: "none", 
-  transition: "border-color 0.2s" 
+const inputStyles = {
+  width: "100%",
+  padding: "13px 16px",
+  background: "rgba(255,255,255,0.08)",
+  border: "1px solid rgba(255,255,255,0.15)",
+  borderRadius: "10px",
+  color: "white",
+  fontSize: "0.9rem",
+  outline: "none",
+  transition: "border-color 0.2s"
 };
 
 const handleFocus = (e) => e.target.style.borderColor = "hsl(9,100%,62%)";
