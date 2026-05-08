@@ -41,19 +41,19 @@ const styles = `
   /* ─── Dot Navigation ─── */
   .slide-dots {
     position: fixed;
-    right: 24px;
+    right: clamp(12px, 3vw, 24px);
     top: 50%;
     transform: translateY(-50%);
     z-index: 999;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: clamp(10px, 2vw, 14px);
     align-items: center;
   }
 
   .slide-dot {
-    width: 12px;
-    height: 12px;
+    width: clamp(10px, 2vw, 12px);
+    height: clamp(10px, 2vw, 12px);
     border-radius: 50%;
     border: 2px solid rgba(255,255,255,0.5);
     background: transparent;

@@ -69,13 +69,25 @@
 
   @media (max-width: 768px) {
     .section-title {
-      font-size: 1.5rem;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+    }
+    .section-subtitle {
+      font-size: clamp(0.7rem, 1.5vw, 0.85rem);
     }
     .btn-primary, .btn-outline {
-      padding: 10px 20px;
-      font-size: 0.85rem;
+      padding: clamp(9px, 2vw, 13px) clamp(18px, 4vw, 28px);
+      font-size: clamp(0.8rem, 1.8vw, 0.9rem);
     }
     .container {
       padding: 0 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 0 12px;
+    }
+    h1, h2, h3 {
+      word-break: break-word;
     }
   }

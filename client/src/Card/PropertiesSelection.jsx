@@ -33,18 +33,18 @@ function PropertiesSection({ onPropertyClick }) {
   });
 
   if (loading) return (
-    <section style={{ height: "400px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <section style={{ height: "clamp(300px, 60vh, 400px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ textAlign: "center" }}>
         <div style={{ width: "40px", height: "40px", border: "3px solid var(--alice)", borderTopColor: "var(--orange)", borderRadius: "50%", animation: "spin 1s linear infinite", marginBottom: "12px" }}></div>
-        <p style={{ color: "var(--cadet)" }}>Loading Properties...</p>
+        <p style={{ color: "var(--cadet)", fontSize: "clamp(0.85rem, 2vw, 0.95rem)" }}>Loading Properties...</p>
       </div>
     </section>
   );
 
   return (
-    <section id="property" style={{ minHeight: "100vh", padding: "100px 0", background: "var(--white)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <section id="property" style={{ minHeight: "100vh", padding: "clamp(50px, 8vw, 100px) 0", background: "var(--white)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <div className="container" style={{ width: "100%" }}>
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <div style={{ textAlign: "center", marginBottom: "clamp(30px, 5vw, 40px)" }}>
           <p className="section-subtitle">Properties</p>
           <h2 className="section-title">Featured Listings</h2>
         </div>
@@ -54,16 +54,16 @@ function PropertiesSection({ onPropertyClick }) {
         ) : (
           <>
             {/* Filter Buttons */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "40px", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: "clamp(8px, 2vw, 10px)", marginBottom: "clamp(30px, 5vw, 40px)", flexWrap: "wrap" }}>
               {["All", "Available", "Sold"].map(f => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
                   style={{
-                    padding: "8px 24px",
+                    padding: "clamp(8px, 1.5vw, 8px) clamp(18px, 4vw, 24px)",
                     borderRadius: "20px",
                     fontWeight: 700,
-                    fontSize: "0.9rem",
+                    fontSize: "clamp(0.8rem, 1.8vw, 0.9rem)",
                     transition: "all 0.3s",
                     background: filter === f ? "var(--raisin)" : "var(--cultured)",
                     color: filter === f ? "white" : "var(--cadet)",
@@ -75,7 +75,7 @@ function PropertiesSection({ onPropertyClick }) {
               ))}
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(clamp(200px, 80vw, 300px), 1fr))", gap: "clamp(16px, 3vw, 24px)" }}>
               {filteredProps.map((p, i) => (
                 <div key={p.id || p._id} style={{ animation: `fadeUp 0.6s ease ${i * 0.1}s both` }}>
                   <PropertyCard property={p} onClick={onPropertyClick} />
@@ -83,7 +83,7 @@ function PropertiesSection({ onPropertyClick }) {
               ))}
             </div>
             {filteredProps.length === 0 && (
-              <p style={{ textAlign: "center", color: "var(--cadet)", marginTop: "40px" }}>No properties found matching your criteria.</p>
+              <p style={{ textAlign: "center", color: "var(--cadet)", marginTop: "clamp(30px, 5vw, 40px)", fontSize: "clamp(0.85rem, 2vw, 0.95rem)" }}>No properties found matching your criteria.</p>
             )}
           </>
         )}

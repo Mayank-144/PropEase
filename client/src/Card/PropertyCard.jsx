@@ -29,43 +29,44 @@ function PropertyCard({ property, onClick }) {
   const mainImage = property.images?.[0]?.url || property.image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80";
 
   return (
-    <div onClick={() => onClick(property)} style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: "var(--shadow-sm)", transition: "all 0.3s", cursor: "pointer", opacity: isSoldOut ? 0.65 : 1, filter: isSoldOut ? "grayscale(40%)" : "none", display: "flex", flexDirection: "column", height: "100%" }}
+    <div onClick={() => onClick(property)} style={{ background: "white", borderRadius: "clamp(12px, 3vw, 16px)", overflow: "hidden", boxShadow: "var(--shadow-sm)", transition: "all 0.3s", cursor: "pointer", opacity: isSoldOut ? 0.65 : 1, filter: isSoldOut ? "grayscale(40%)" : "none", display: "flex", flexDirection: "column", height: "100%" }}
       onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "var(--shadow)"; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "var(--shadow-sm)"; }}>
 
-      <div style={{ position: "relative", overflow: "hidden", height: "220px", flexShrink: 0 }}>
+      <div style={{ position: "relative", overflow: "hidden", height: "clamp(150px, 40vw, 220px)", flexShrink: 0 }}>
         <img src={mainImage} alt={property.title} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }}
           onMouseEnter={e => e.target.style.transform = "scale(1.05)"} onMouseLeave={e => e.target.style.transform = ""} />
 
         {/* Type Badge */}
-        <span style={{ position: "absolute", top: "14px", left: "14px", background: "rgba(0,0,0,0.6)", color: "white", fontSize: "0.72rem", fontWeight: 700, padding: "4px 12px", borderRadius: "20px", letterSpacing: "0.5px", backdropFilter: "blur(4px)" }}>
+        <span style={{ position: "absolute", top: "clamp(10px, 2vw, 14px)", left: "clamp(10px, 2vw, 14px)", background: "rgba(0,0,0,0.6)", color: "white", fontSize: "clamp(0.65rem, 1.5vw, 0.72rem)", fontWeight: 700, padding: "4px 12px", borderRadius: "20px", letterSpacing: "0.5px", backdropFilter: "blur(4px)" }}>
           {property.type}
         </span>
 
         {/* Status Badge */}
-        <span style={{ position: "absolute", top: "14px", right: "14px", background: badgeColor, color: "white", fontSize: "0.75rem", fontWeight: 700, padding: "6px 14px", borderRadius: "20px", letterSpacing: "0.5px", boxShadow: "0 4px 10px rgba(0,0,0,0.2)" }}>
+        <span style={{ position: "absolute", top: "clamp(10px, 2vw, 14px)", right: "clamp(10px, 2vw, 14px)", background: badgeColor, color: "white", fontSize: "clamp(0.65rem, 1.5vw, 0.75rem)", fontWeight: 700, padding: "6px 12px", borderRadius: "20px", letterSpacing: "0.5px", boxShadow: "0 4px 10px rgba(0,0,0,0.2)" }}>
           {badgeText}
         </span>
       </div>
 
-      <div style={{ padding: "20px 22px", display: "flex", flexDirection: "column", flexGrow: 1 }}>
-        <h3 style={{ fontWeight: 800, fontSize: "1.1rem", marginBottom: "6px", color: "var(--raisin)", lineHeight: 1.3 }}>{property.title}</h3>
-        <p style={{ color: "var(--cadet)", fontSize: "0.85rem", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>📍 {property.location}</p>
+      <div style={{ padding: "clamp(16px, 3vw, 20px) clamp(16px, 3vw, 22px)", display: "flex", flexDirection: "column", flexGrow: 1 }}>
+        <h3 style={{ fontWeight: 800, fontSize: "clamp(0.95rem, 2.5vw, 1.1rem)", marginBottom: "6px", color: "var(--raisin)", lineHeight: 1.3 }}>{property.title}</h3>
+        <p style={{ color: "var(--cadet)", fontSize: "clamp(0.75rem, 1.8vw, 0.85rem)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>📍 {property.location}</p>
 
-        <p style={{ fontSize: "0.82rem", color: isSoldOut ? "#e63946" : "var(--cadet)", fontWeight: isSoldOut ? 600 : 400, fontStyle: "italic", marginBottom: "16px", lineHeight: 1.5 }}>
+        <p style={{ fontSize: "clamp(0.7rem, 1.8vw, 0.82rem)", color: isSoldOut ? "#e63946" : "var(--cadet)", fontWeight: isSoldOut ? 600 : 400, fontStyle: "italic", marginBottom: "clamp(12px, 2vw, 16px)", lineHeight: 1.5 }}>
           {descText}
         </p>
 
-        <div style={{ display: "flex", gap: "14px", marginBottom: "20px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "clamp(10px, 2vw, 14px)", marginBottom: "clamp(16px, 2vw, 20px)", flexWrap: "wrap" }}>
           {[["🛏", property.bedrooms + " Beds"], ["🚿", property.bathrooms + " Baths"], ["📐", property.squareFt + " ft²"]].map(([ic, v]) => (
-            <span key={v} style={{ fontSize: "0.78rem", color: "var(--cadet)", display: "flex", alignItems: "center", gap: "4px", background: "var(--cultured)", padding: "4px 10px", borderRadius: "8px", fontWeight: 600 }}>{ic} {v}</span>
+            <span key={v} style={{ fontSize: "clamp(0.7rem, 1.5vw, 0.78rem)", color: "var(--cadet)", display: "flex", alignItems: "center", gap: "4px", background: "var(--cultured)", padding: "4px 10px", borderRadius: "8px", fontWeight: 600 }}>{ic} {v}</span>
           ))}
         </div>
 
         {/* Progress Bar (Only show if multiple units exist) */}
         {unitsTotal > 1 && (
-          <div style={{ marginBottom: "20px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", fontWeight: 700, color: "var(--cadet)", marginBottom: "6px" }}>
+          <div style={{ marginBottom: "clamp(14px, 2vw, 20px)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "clamp(0.65rem, 1.5vw, 0.75rem)", fontWeight: 700, color: "var(--cadet)", marginBottom: "6px" }}
+            >
               <span>Units Sold</span>
               <span>{unitsSold} / {unitsTotal}</span>
             </div>
@@ -75,9 +76,9 @@ function PropertyCard({ property, onClick }) {
           </div>
         )}
 
-        <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "16px", borderTop: "1px solid var(--cultured)" }}>
-          <span style={{ fontWeight: 800, fontSize: "1.2rem", color: "var(--raisin)" }}>₹{property.price.toLocaleString()}{property.type === "For Rent" ? "/mo" : ""}</span>
-          <span style={{ fontSize: "0.85rem", color: isSoldOut ? "var(--cadet)" : "var(--orange)", fontWeight: 700 }}>{isSoldOut ? "View Details" : "View →"}</span>
+        <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "clamp(12px, 2vw, 16px)", borderTop: "1px solid var(--cultured)" }}>
+          <span style={{ fontWeight: 800, fontSize: "clamp(0.95rem, 2.5vw, 1.2rem)", color: "var(--raisin)" }}>₹{property.price.toLocaleString()}{property.type === "For Rent" ? "/mo" : ""}</span>
+          <span style={{ fontSize: "clamp(0.75rem, 1.8vw, 0.85rem)", color: isSoldOut ? "var(--cadet)" : "var(--orange)", fontWeight: 700 }}>{isSoldOut ? "View Details" : "View →"}</span>
         </div>
       </div>
     </div>
