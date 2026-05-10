@@ -1,16 +1,17 @@
 import { useState, useCallback } from "react";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 
-// Imports from utils
+// Utils
 import { getStoredUser } from "@/utils/storage.js";
 
-// Imports from pages
+// Pages
 import LoginPage from "@/pages/login.jsx";
 import AdminPanel from "@/pages/AdminPanel.jsx";
 import PropertyDetail from "@/pages/PropertyDetail.jsx";
 import ServiceDetail from "@/pages/ServiceDetail.jsx";
 import MyHistory from "@/pages/MyHistory.jsx";
 
-// Imports from components
+// Components
 import Header from "@/Components/Layout/Header.jsx";
 import Footer from "@/Components/Layout/Footer.jsx";
 import Hero from "@/Components/Hero.jsx";
@@ -19,18 +20,26 @@ import Services from "@/Components/Service.jsx";
 import Contact from "@/Components/Contact.jsx";
 import SlideContainer from "@/Components/SlideContainer.jsx";
 
-// Imports from cards
+// Cards
 import PropertiesSection from "@/Card/PropertiesSelection.jsx";
 
 // Real-time components
 import NotificationToast from "./Components/NotificationToast.jsx";
 import ChatWindow from "./Components/ChatWindow.jsx";
 
-// ——— STYLES ————————————————————————————————————————————————————
+// ---------------- GLOBAL STYLES ----------------
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   :root {
     --orange: hsl(9, 100%, 62%);
     --orange-dark: hsl(9, 90%, 52%);
@@ -40,144 +49,312 @@ const globalStyles = `
     --cultured: hsl(192, 24%, 96%);
     --alice: hsl(210, 100%, 97%);
     --white: #fff;
+
     --shadow: 0 8px 32px hsla(219, 56%, 21%, 0.12);
     --shadow-sm: 0 4px 16px hsla(219, 56%, 21%, 0.08);
+
     --ff: 'Poppins', sans-serif;
+
     --radius: 12px;
     --transition: 0.25s ease;
   }
-  html { scroll-behavior: smooth; overflow: hidden; }
-  body { font-family: var(--ff); color: var(--raisin); background: var(--white); overflow: hidden; }
-  img { max-width: 100%; display: block; }
-  button { cursor: pointer; border: none; background: none; font-family: var(--ff); }
-  a { text-decoration: none; color: inherit; }
-  input, textarea, select { font-family: var(--ff); }
 
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--cultured); }
-  ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+  html {
+    scroll-behavior: smooth;
+    overflow: hidden;
+  }
 
-  @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  body {
+    font-family: var(--ff);
+    color: var(--raisin);
+    background: var(--white);
+    overflow: hidden;
+  }
 
-  .fade-up { animation: fadeUp 0.6s ease forwards; }
-  .fade-in { animation: fadeIn 0.4s ease forwards; }
+  img {
+    max-width: 100%;
+    display: block;
+  }
 
-  .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
-  .section-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-  
-  .btn-primary { 
-    display: inline-flex; 
-    align-items: center; 
-    gap: 8px; 
-    padding: 12px 28px; 
-    background: var(--orange); 
-    color: var(--white); 
-    border-radius: 8px; 
-    font-weight: 600; 
-    font-size: 0.95rem; 
-    transition: var(--transition); 
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--ff);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: var(--ff);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--cultured);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--orange);
+    border-radius: 3px;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--orange);
+    color: var(--white);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
     border: none;
   }
-  .btn-primary:hover { 
-    background: var(--orange-dark); 
-    transform: translateY(-2px); 
-    box-shadow: 0 8px 24px hsla(9,100%,62%,0.35); 
+
+  .btn-primary:hover {
+    background: var(--orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px hsla(9,100%,62%,0.35);
   }
-  .btn-outline { 
-    display: inline-flex; 
-    align-items: center; 
-    gap: 8px; 
-    padding: 11px 26px; 
-    border: 2px solid var(--orange); 
-    color: var(--orange); 
-    border-radius: 8px; 
-    font-weight: 600; 
-    font-size: 0.95rem; 
-    transition: var(--transition); 
-    background: transparent; 
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 26px;
+    border: 2px solid var(--orange);
+    color: var(--orange);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    background: transparent;
   }
-  .btn-outline:hover { 
-    background: var(--orange); 
-    color: var(--white); 
-    transform: translateY(-2px); 
+
+  .btn-outline:hover {
+    background: var(--orange);
+    color: var(--white);
+    transform: translateY(-2px);
   }
-  
-  /* Mobile Optimizations */
+
   @media (max-width: 768px) {
-    html, body { overflow-y: auto !important; height: auto !important; }
-    .container { padding: 0 16px; }
-    .section-title { font-size: 1.8rem; }
-    .btn-primary, .btn-outline { padding: 12px 20px; width: 100%; justify-content: center; }
-    .responsive-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-    .mobile-hide { display: none !important; }
-    .mobile-full { width: 100% !important; }
+    html,
+    body {
+      overflow-y: auto !important;
+      height: auto !important;
+    }
+
+    .container {
+      padding: 0 16px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+
+    .btn-primary,
+    .btn-outline {
+      padding: 12px 20px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .responsive-grid {
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+    }
+
+    .mobile-hide {
+      display: none !important;
+    }
+
+    .mobile-full {
+      width: 100% !important;
+    }
   }
 
-  /* Smoothness & Transitions */
-  .smooth-scroll { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
 `;
 
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+// ---------------- APP ----------------
 
 function App() {
   const [user, setUser] = useState(getStoredUser);
   const [activeSlide, setActiveSlide] = useState(0);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
+
   const navigate = useNavigate();
 
-  const handleLogin = (u) => {
-    setUser(u);
-    navigate(u.role === "admin" ? "/admin" : "/");
+  // ---------------- LOGIN ----------------
+
+  const handleLogin = (loggedUser) => {
+    setUser(loggedUser);
+
+    if (loggedUser.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
   };
 
-  const handlePropertyClick = (p) => {
-    setSelectedProperty(p);
-    navigate("/property/" + p.id);
+  // ---------------- PROPERTY ----------------
+
+  const handlePropertyClick = (property) => {
+    setSelectedProperty(property);
+    navigate(`/property/${property.id}`);
   };
 
-  const handleServiceClick = (s) => {
-    setSelectedService(s);
-    navigate("/service/" + s.id);
+  // ---------------- SERVICE ----------------
+
+  const handleServiceClick = (service) => {
+    setSelectedService(service);
+    navigate(`/service/${service.id}`);
   };
+
+  // ---------------- SLIDES ----------------
 
   const handleSlideChange = useCallback((index) => {
     setActiveSlide(index);
   }, []);
 
-  // Navigate to a specific slide from header
-  const goToSlide = useCallback((slideIndex) => {
-    setSelectedProperty(null);
-    setSelectedService(null);
-    setActiveSlide(slideIndex);
-    navigate("/");
-  }, [navigate]);
+  const goToSlide = useCallback(
+    (slideIndex) => {
+      setSelectedProperty(null);
+      setSelectedService(null);
+      setActiveSlide(slideIndex);
+      navigate("/");
+    },
+    [navigate]
+  );
 
-  // Backward compatible setPage function for Header component
+  // ---------------- HEADER ROUTES ----------------
+
   const mockSetPage = (pageName) => {
-    if (pageName === "home") navigate("/");
-    else if (pageName === "admin") navigate("/admin");
-    else if (pageName === "history") navigate("/history");
+    if (pageName === "home") {
+      navigate("/");
+    } else if (pageName === "admin") {
+      navigate("/admin");
+    } else if (pageName === "history") {
+      navigate("/history");
+    }
   };
 
-  if (!user) return (
-    <>
-      <style>{globalStyles}</style>
-      <Routes>
-        <Route path="*" element={<LoginPage onLogin={handleLogin} />} />
-      </Routes>
-    </>
-  );
+  // ---------------- AUTH ROUTES ----------------
+
+  if (!user) {
+    return (
+      <>
+        <style>{globalStyles}</style>
+
+        <Routes>
+          <Route
+            path="/login"
+            element={<LoginPage onLogin={handleLogin} />}
+          />
+
+          <Route
+            path="/signup"
+            element={<LoginPage onLogin={handleLogin} />}
+          />
+
+          <Route
+            path="/forgot-password"
+            element={<LoginPage onLogin={handleLogin} />}
+          />
+
+          <Route
+            path="/change-password"
+            element={<LoginPage onLogin={handleLogin} />}
+          />
+
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      </>
+    );
+  }
+
+  // ---------------- MAIN APP ----------------
 
   return (
     <>
       <style>{globalStyles}</style>
+
       <NotificationToast />
       <ChatWindow />
+
       <Header
         user={user}
         setPage={mockSetPage}
@@ -188,47 +365,113 @@ function App() {
       />
 
       <Routes>
-        <Route path="/" element={
-          <SlideContainer activeSlide={activeSlide} onSlideChange={handleSlideChange}>
-            <Hero goToSlide={goToSlide} />
-            <About goToSlide={goToSlide} />
-            <Services onServiceClick={handleServiceClick} />
-            <PropertiesSection onPropertyClick={handlePropertyClick} />
-            <div>
-              <Contact />
-              <Footer goToSlide={goToSlide} />
-            </div>
-          </SlideContainer>
-        } />
+        {/* HOME */}
+        <Route
+          path="/"
+          element={
+            <SlideContainer
+              activeSlide={activeSlide}
+              onSlideChange={handleSlideChange}
+            >
+              <Hero goToSlide={goToSlide} />
 
-        <Route path="/admin" element={
-          <main style={{ marginTop: "80px", height: "calc(100vh - 80px)", overflow: "auto" }}>
-            {user.role === "admin" ? <AdminPanel /> : <Navigate to="/" />}
-          </main>
-        } />
+              <About goToSlide={goToSlide} />
 
-        <Route path="/property/:id" element={
-          <main style={{ marginTop: "80px", height: "calc(100vh - 80px)", overflow: "auto" }}>
-            {selectedProperty ? (
-              <PropertyDetail property={selectedProperty} onBack={() => { setSelectedProperty(null); navigate("/"); }} goToSlide={goToSlide} />
-            ) : (
-              <Navigate to="/" />
-            )}
-          </main>
-        } />
+              <Services onServiceClick={handleServiceClick} />
 
-        <Route path="/history" element={<MyHistory />} />
+              <PropertiesSection
+                onPropertyClick={handlePropertyClick}
+              />
 
-        <Route path="/service/:id" element={
-          <main style={{ marginTop: "80px", height: "calc(100vh - 80px)", overflow: "auto" }}>
-            {selectedService ? (
-              <ServiceDetail service={selectedService} onBack={() => { setSelectedService(null); navigate("/"); }} goToSlide={goToSlide} />
-            ) : (
-              <Navigate to="/" />
-            )}
-          </main>
-        } />
+              <div>
+                <Contact />
+                <Footer goToSlide={goToSlide} />
+              </div>
+            </SlideContainer>
+          }
+        />
 
+        {/* ADMIN */}
+        <Route
+          path="/admin"
+          element={
+            <main
+              style={{
+                marginTop: "80px",
+                height: "calc(100vh - 80px)",
+                overflow: "auto",
+              }}
+            >
+              {user.role === "admin" ? (
+                <AdminPanel />
+              ) : (
+                <Navigate to="/" />
+              )}
+            </main>
+          }
+        />
+
+        {/* PROPERTY DETAILS */}
+        <Route
+          path="/property/:id"
+          element={
+            <main
+              style={{
+                marginTop: "80px",
+                height: "calc(100vh - 80px)",
+                overflow: "auto",
+              }}
+            >
+              {selectedProperty ? (
+                <PropertyDetail
+                  property={selectedProperty}
+                  onBack={() => {
+                    setSelectedProperty(null);
+                    navigate("/");
+                  }}
+                  goToSlide={goToSlide}
+                />
+              ) : (
+                <Navigate to="/" />
+              )}
+            </main>
+          }
+        />
+
+        {/* HISTORY */}
+        <Route
+          path="/history"
+          element={<MyHistory />}
+        />
+
+        {/* SERVICE DETAILS */}
+        <Route
+          path="/service/:id"
+          element={
+            <main
+              style={{
+                marginTop: "80px",
+                height: "calc(100vh - 80px)",
+                overflow: "auto",
+              }}
+            >
+              {selectedService ? (
+                <ServiceDetail
+                  service={selectedService}
+                  onBack={() => {
+                    setSelectedService(null);
+                    navigate("/");
+                  }}
+                  goToSlide={goToSlide}
+                />
+              ) : (
+                <Navigate to="/" />
+              )}
+            </main>
+          }
+        />
+
+        {/* FALLBACK */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
