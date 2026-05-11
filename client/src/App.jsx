@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { useState, useCallback, useEffect } from "react";
+import { Routes, Route, useNavigate, Navigate, useLocation } from "react-router-dom";
 
 // Utils
 import { getStoredUser } from "@/utils/storage.js";
@@ -257,6 +257,20 @@ function App() {
   const [selectedService, setSelectedService] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const SLIDES = ["home", "about", "services", "properties", "contact"];
+
+  // Sync URL to activeSlide
+  useEffect(() => {
+    const path = location.pathname.substring(1);
+    const index = SLIDES.indexOf(path);
+    if (index !== -1 && index !== activeSlide) {
+      setActiveSlide(index);
+    } else if (path === "" && activeSlide !== 0) {
+      setActiveSlide(0);
+    }
+  }, [location.pathname, activeSlide]);
 
   // ---------------- LOGIN ----------------
 
@@ -288,14 +302,14 @@ function App() {
 
   const handleSlideChange = useCallback((index) => {
     setActiveSlide(index);
-  }, []);
+    navigate(`/${SLIDES[index]}`);
+  }, [navigate]);
 
   const goToSlide = useCallback(
     (slideIndex) => {
       setSelectedProperty(null);
       setSelectedService(null);
-      setActiveSlide(slideIndex);
-      navigate("/");
+      navigate(`/${SLIDES[slideIndex]}`);
     },
     [navigate]
   );
@@ -365,31 +379,28 @@ function App() {
       />
 
       <Routes>
-        {/* HOME */}
-        <Route
-          path="/"
-          element={
-            <SlideContainer
-              activeSlide={activeSlide}
-              onSlideChange={handleSlideChange}
-            >
-              <Hero goToSlide={goToSlide} />
-
-              <About goToSlide={goToSlide} />
-
-              <Services onServiceClick={handleServiceClick} />
-
-              <PropertiesSection
-                onPropertyClick={handlePropertyClick}
-              />
-
-              <div>
-                <Contact />
-                <Footer goToSlide={goToSlide} />
-              </div>
-            </SlideContainer>
-          }
-        />
+        {/* HOME & SECTION ROUTES */}
+        {["/", "/home", "/about", "/services", "/properties", "/contact"].map((path) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <SlideContainer
+                activeSlide={activeSlide}
+                onSlideChange={handleSlideChange}
+              >
+                <Hero goToSlide={goToSlide} />
+                <About goToSlide={goToSlide} />
+                <Services onServiceClick={handleServiceClick} />
+                <PropertiesSection onPropertyClick={handlePropertyClick} />
+                <div>
+                  <Contact />
+                  <Footer goToSlide={goToSlide} />
+                </div>
+              </SlideContainer>
+            }
+          />
+        ))}
 
         {/* ADMIN */}
         <Route
