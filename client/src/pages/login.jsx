@@ -260,9 +260,9 @@ function LoginPage({ onLogin }) {
               {loading
                 ? "Processing…"
                 : mode === "login" ? "Sign In"
-                : mode === "signup" ? "Sign Up"
-                : mode === "forgot" ? "Send Link"
-                : "Update Password"}
+                  : mode === "signup" ? "Sign Up"
+                    : mode === "forgot" ? "Send Link"
+                      : "Update Password"}
             </button>
           </form>
 
