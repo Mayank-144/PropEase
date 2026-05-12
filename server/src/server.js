@@ -118,19 +118,23 @@ async function startServer() {
     await connectDB();
     logger.success('Database connection established');
 
-    // Initialize Socket.io
-    initSocket(httpServer);
-    logger.success('Socket.io initialized');
+    if (!process.env.VERCEL) {
+      // Initialize Socket.io
+      initSocket(httpServer);
+      logger.success('Socket.io initialized');
 
-    // Start server
-    httpServer.listen(PORT, () => {
-      logger.success(`Server running on http://localhost:${PORT}`);
-      logger.info('🚀 PropEase API Server is ready');
-      logger.info(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-    });
+      // Start server
+      httpServer.listen(PORT, () => {
+        logger.success(`Server running on http://localhost:${PORT}`);
+        logger.info('🚀 PropEase API Server is ready');
+        logger.info(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
+      });
+    }
   } catch (error) {
     logger.error('Failed to start server:', error.message);
-    process.exit(1);
+    if (!process.env.VERCEL) {
+      process.exit(1);
+    }
   }
 }
 
