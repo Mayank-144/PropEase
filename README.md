@@ -2,6 +2,8 @@
 
 > A full-stack MERN real estate platform that connects property seekers, owners, and administrators with real-time inquiries, interactive property listings, secure authentication, and payment integrations.
 
+🚀 **Live Demo**: [https://prop-ease-tau.vercel.app](https://prop-ease-tau.vercel.app/)
+
 ---
 
 ## ✨ Features
