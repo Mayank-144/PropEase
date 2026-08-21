@@ -5,8 +5,8 @@ import { getStoredProps, saveProps } from "../utils/storage.js";
 function AdminPanel() {
   const [tab, setTab] = useState("overview");
   const [properties, setProperties] = useState(getStoredProps);
-  const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem("hv_messages")) || []);
-  const [history, setHistory] = useState(() => JSON.parse(localStorage.getItem("hv_history")) || []);
+  const [messages] = useState(() => JSON.parse(localStorage.getItem("hv_messages")) || []);
+  const [history] = useState(() => JSON.parse(localStorage.getItem("hv_history")) || []);
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({});
 
@@ -31,8 +31,6 @@ function AdminPanel() {
   };
 
   const handleDelete = (id) => { if (confirm("Delete this property?")) saveAndUpdate(properties.filter(p => p.id !== id)); };
-
-  const inputStyle = { width: "100%", padding: "10px 12px", border: "1.5px solid #e5e7ef", borderRadius: "8px", fontSize: "0.88rem", outline: "none" };
 
   const activeProps = properties.filter(p => p.available !== false).length;
   const soldProps = history.length;
@@ -72,7 +70,7 @@ function AdminPanel() {
         <div style={{ marginBottom: "32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
             <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--raisin)", marginBottom: "4px" }}>
-              {tabs.find(t => t.id === tab)?.label.replace(/[📊🏠🏷️🛠👥📩]/g, '')}
+              {tabs.find(t => t.id === tab)?.label.replace(/[📊🏠🏷️🛠👥📩]/gu, '')}
             </h1>
             <p style={{ color: "var(--cadet)", fontSize: "0.9rem" }}>Manage and monitor the PropEase platform</p>
           </div>
@@ -105,7 +103,7 @@ function AdminPanel() {
             <div style={{ background: "white", padding: "32px", borderRadius: "24px", boxShadow: "var(--shadow-sm)" }}>
               <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "20px" }}>Recent Platform Activity</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                {properties.slice(0, 3).map((p, i) => (
+                {properties.slice(0, 3).map((p) => (
                   <div key={p.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "16px", borderBottom: "1px solid var(--cultured)" }}>
                     <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                       <img src={p.image} style={{ width: "60px", height: "60px", borderRadius: "12px", objectFit: "cover" }} />

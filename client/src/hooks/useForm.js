@@ -1,11 +1,13 @@
+import { useState } from 'react';
+
 /**
  * Custom hook for form handling with validation
  */
 export function useForm(initialValues, onSubmit, validate) {
-  const [values, setValues] = React.useState(initialValues);
-  const [errors, setErrors] = React.useState({});
-  const [touched, setTouched] = React.useState({});
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

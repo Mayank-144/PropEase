@@ -248,6 +248,8 @@ const globalStyles = `
   }
 `;
 
+const SLIDES = ["home", "about", "services", "properties", "contact"];
+
 // ---------------- APP ----------------
 
 function App() {
@@ -258,8 +260,6 @@ function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  const SLIDES = ["home", "about", "services", "properties", "contact"];
 
   // Sync URL to activeSlide
   useEffect(() => {

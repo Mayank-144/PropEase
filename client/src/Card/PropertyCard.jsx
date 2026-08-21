@@ -6,7 +6,6 @@ function PropertyCard({ property, onClick }) {
   const unitsSold = unitsTotal - unitsAvailable;
 
   const isLimited = !isSoldOut && unitsTotal > 1 && unitsAvailable <= 3;
-  const isAvailable = !isSoldOut && !isLimited;
 
   // Visuals and Text based on Status
   let badgeColor, badgeText, descText;

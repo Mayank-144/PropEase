@@ -13,7 +13,7 @@ export const propertyService = {
   async getAllProperties(page = 1, limit = 10) {
     try {
       const response = await apiClient.get(`/api/properties?page=${page}&limit=${limit}`);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -32,7 +32,7 @@ export const propertyService = {
   async getPropertyById(id) {
     try {
       const response = await apiClient.get(`/api/properties/${id}`);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -52,7 +52,7 @@ export const propertyService = {
   async searchProperties(filters) {
     try {
       const params = new URLSearchParams();
-      
+
       if (filters.location) params.append('city', filters.location);
       if (filters.type) params.append('type', filters.type);
       if (filters.minPrice) params.append('minPrice', filters.minPrice);
@@ -61,7 +61,7 @@ export const propertyService = {
       if (filters.featured) params.append('featured', filters.featured);
 
       const response = await apiClient.get(`/api/properties?${params.toString()}`);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -98,7 +98,7 @@ export const propertyService = {
   async getFeaturedProperties() {
     try {
       const response = await apiClient.get('/api/properties/featured');
-      
+
       if (response.success) {
         return response.data;
       }
@@ -116,7 +116,7 @@ export const propertyService = {
   async createProperty(propertyData) {
     try {
       const response = await apiClient.post('/api/properties', propertyData);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -134,7 +134,7 @@ export const propertyService = {
   async updateProperty(id, propertyData) {
     try {
       const response = await apiClient.put(`/api/properties/${id}`, propertyData);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -152,7 +152,7 @@ export const propertyService = {
   async deleteProperty(id) {
     try {
       const response = await apiClient.delete(`/api/properties/${id}`);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -170,7 +170,7 @@ export const propertyService = {
   async getPropertyReviews(id) {
     try {
       const response = await apiClient.get(`/api/properties/${id}/reviews`);
-      
+
       if (response.success) {
         return response.data;
       }
@@ -188,7 +188,7 @@ export const propertyService = {
   async addPropertyReview(id, reviewData) {
     try {
       const response = await apiClient.post(`/api/properties/${id}/reviews`, reviewData);
-      
+
       if (response.success) {
         return response.data;
       }

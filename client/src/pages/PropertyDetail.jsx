@@ -46,7 +46,8 @@ function PropertyDetail({ property, onBack, goToSlide }) {
       } else {
         alert("Failed to send message: " + (data.message || "Unknown error"));
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Error sending message:', error);
       alert("Error sending message.");
     }
     setSendingMsg(false);
@@ -236,16 +237,16 @@ function PropertyDetail({ property, onBack, goToSlide }) {
                 <div style={{ animation: "fadeIn 0.3s ease" }}>
                   <form onSubmit={handleSendMessage} style={{ marginTop: "16px" }}>
                     <div className="form-group">
-                      <input type="text" className="form-control" placeholder="Your Name" required value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})} />
+                      <input type="text" className="form-control" placeholder="Your Name" required value={contactForm.name} onChange={e => setContactForm({ ...contactForm, name: e.target.value })} />
                     </div>
                     <div className="form-group">
-                      <input type="email" className="form-control" placeholder="Your Email" required value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})} />
+                      <input type="email" className="form-control" placeholder="Your Email" required value={contactForm.email} onChange={e => setContactForm({ ...contactForm, email: e.target.value })} />
                     </div>
                     <div className="form-group">
-                      <input type="tel" className="form-control" placeholder="Your Phone (optional)" value={contactForm.phone} onChange={e => setContactForm({...contactForm, phone: e.target.value})} />
+                      <input type="tel" className="form-control" placeholder="Your Phone (optional)" value={contactForm.phone} onChange={e => setContactForm({ ...contactForm, phone: e.target.value })} />
                     </div>
                     <div className="form-group">
-                      <textarea className="form-control" placeholder="Message to landlord" required value={contactForm.message} onChange={e => setContactForm({...contactForm, message: e.target.value})}></textarea>
+                      <textarea className="form-control" placeholder="Message to landlord" required value={contactForm.message} onChange={e => setContactForm({ ...contactForm, message: e.target.value })}></textarea>
                     </div>
                     <button type="submit" disabled={sendingMsg} className="btn-primary" style={{ width: "100%", justifyContent: "center", marginBottom: "8px" }}>
                       {sendingMsg ? "Sending..." : "✉️ Send Message"}

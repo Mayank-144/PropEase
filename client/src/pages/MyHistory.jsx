@@ -3,17 +3,15 @@ import Footer from "../Components/Layout/Footer.jsx";
 import { getStoredUser } from "../utils/storage.js";
 
 function MyHistory() {
-  const [history, setHistory] = useState([]);
-  const [leaseModal, setLeaseModal] = useState(null);
   const user = getStoredUser();
-
-  useEffect(() => {
+  const [history] = useState(() => {
     const rawHistory = JSON.parse(localStorage.getItem("hv_history")) || [];
-    // Only show history for the currently logged-in user
     if (user) {
-      setHistory(rawHistory.filter(h => h.userId === user.id || h.userId === user._id));
+      return rawHistory.filter(h => h.userId === user.id || h.userId === user._id);
     }
-  }, []);
+    return [];
+  });
+  const [leaseModal, setLeaseModal] = useState(null);
 
   return (
     <div style={{ paddingTop: "80px", minHeight: "100vh", background: "var(--cultured)" }}>
